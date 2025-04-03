@@ -2,7 +2,6 @@ import json
 from prompt import system_prompt
 
 def load_mapping():
-    """Load field mapping from JSON file."""
     try:
         with open('mapping.json') as f:
             mapping = json.load(f)
@@ -12,11 +11,9 @@ def load_mapping():
         return {}
 
 def extract_lhs_fields(mapping):
-    """Extract lhs fields dynamically from the mapping file."""
     return [entry["lhs"] for entry in mapping.get("response", [])]
 
 def map_fields(lhs_fields, rhs_mapping):
-    """Maps lhs fields to rhs fields based on the given mapping."""
     response = []
 
     for lhs_field in lhs_fields:
@@ -30,7 +27,6 @@ def map_fields(lhs_fields, rhs_mapping):
     return response
 
 def main():
-    """Main function to process mapping."""
     rhs_mapping = load_mapping()
     if not rhs_mapping:
         print("Error: Mapping file is empty or could not be loaded.")
@@ -56,9 +52,7 @@ def run_mapper(lhs_fields, system_prompt, user_input_json):
     response = [{"lhs": field, "rhs": field if field in rhs_mapping else None} for field in lhs_fields]
     return json.dumps({"response": response}, indent=2)
 
-# with open("mapping.json", "r", encoding="utf-8") as file:
-#     print("Mappings JSON Output:", file.read())
-
-
 if __name__ == "__main__":
     main()
+
+

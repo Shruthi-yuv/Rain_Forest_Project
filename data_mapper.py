@@ -1,54 +1,3 @@
-# import json
-# from key_extractor import JSONKeyExtractor
-# from prompt import user_input
-#
-#
-# def ai_mapping():
-#     # Load LHS fields from JSON file
-#     with open("data.json", "r", encoding="utf-8") as file:
-#         lhs_data = json.load(file)
-#
-#     lhs_extractor = JSONKeyExtractor(lhs_data)
-#     lhs_fields = lhs_extractor.extract_keys()  # Extract LHS keys dynamically
-#     rhs_fields = user_input.get("rhs", [])  # Load RHS fields from prompt.py
-#
-#     mapped_data = {}
-#
-#     for lhs in lhs_fields:
-#         best_match = None
-#
-#         for rhs in rhs_fields:
-#             if rhs.lower() in lhs.lower():
-#                 best_match = rhs
-#                 break  # Stop searching once a match is found
-#
-#         if best_match:
-#             # Assign the matched field value from lhs_data to the mapped data
-#             keys = lhs.split(".")
-#             value = lhs_data
-#             try:
-#                 for key in keys:
-#                     if "[" in key and "]" in key:  # Handle lists
-#                         key, index = key[:-1].split("[")
-#                         value = value[key][int(index)]
-#                     else:
-#                         value = value[key]
-#                 mapped_data[best_match] = value
-#             except (KeyError, IndexError, TypeError):
-#                 mapped_data[best_match] = None
-#
-#     # Format the final output similar to the image
-#     final_output = json.dumps(mapped_data, indent=2)
-#
-#     print("\nFINAL MAPPED DATA:\n")
-#     print(final_output)
-#
-#
-# if __name__ == "__main__":
-#     ai_mapping()
-#
-
-
 import os
 import json
 from typing import TypedDict, Annotated, List
@@ -109,7 +58,7 @@ class LangGraphChatbot:
         response_text = response.content if isinstance(response, AIMessage) else str(response)
 
         try:
-            structured_response = json.loads(response_text)  # Ensure valid JSON
+            structured_response = json.loads(response_text)
         except json.JSONDecodeError:
             print("\nError: AI response is not valid JSON. Trying to fix formatting...")
             structured_response = self.fix_json_format(response_text)
@@ -117,7 +66,7 @@ class LangGraphChatbot:
         mapped_values = self.get_mapped_values(structured_response)
 
         # Print final JSON output with actual values
-        print("\nFinal JSON Output:\n", json.dumps(mapped_values, indent=2))
+        # print("\nFinal JSON Output:\n", json.dumps(mapped_values, indent=2))
 
         return {"messages": state["messages"] + [AIMessage(content=json.dumps(mapped_values, indent=2))]}
 
@@ -146,7 +95,6 @@ class LangGraphChatbot:
 
     def fix_json_format(self, text):
         try:
-            # Remove unnecessary text and extract JSON
             start_index = text.find("{")
             end_index = text.rfind("}") + 1
             json_str = text[start_index:end_index]
@@ -162,6 +110,7 @@ class LangGraphChatbot:
         You are an expert in matching e-commerce field names.
         Given the LHS (source fields) and RHS (destination fields), map them based on semantic meaning.
         Ensure that every LHS field is included in the output, even if it doesn't have an RHS match.
+
         LHS Fields: {json.dumps(lhs_fields, indent=2)}
         RHS Fields: {json.dumps(rhs_fields, indent=2)}
         """
@@ -177,14 +126,10 @@ class LangGraphChatbot:
         )
 
         for event in events:
-            # print("Raw event:", event)
-
             if "messages" in event and event["messages"]:
                 last_message = event["messages"][-1]
                 if isinstance(last_message, AIMessage):
                     print("\nAI Output:\n", last_message.content)
-                # else:
-                    # print("\nAI Output:\n", last_message)
             else:
                 print("No messages received from AI.")
 
