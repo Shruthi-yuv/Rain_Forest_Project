@@ -1,0 +1,256 @@
+{
+  "response": [
+    {
+      "lhs": "product.title",
+      "rhs": "productTitle"
+    },
+    {
+      "lhs": "product.description",
+      "rhs": "description"
+    },
+    {
+      "lhs": "product.long_description",
+      "rhs": "longDescription"
+    },
+    {
+      "lhs": "product.brand",
+      "rhs": "brand"
+    },
+    {
+      "lhs": "product.main_image",
+      "rhs": "heroImage"
+    },
+    {
+      "lhs": "product.frontImage",
+      "rhs": "frontImage"
+    },
+    {
+      "lhs": "product.backImage",
+      "rhs": "backImage"
+    },
+    {
+      "lhs": "product.boxImage",
+      "rhs": "boxImage"
+    },
+    {
+      "lhs": "product.bottomImage",
+      "rhs": "bottomImage"
+    },
+    {
+      "lhs": "product.topImage",
+      "rhs": "topImage"
+    },
+    {
+      "lhs": "product.rightImage",
+      "rhs": "rightImage"
+    },
+    {
+      "lhs": "product.leftImage",
+      "rhs": "leftImage"
+    },
+    {
+      "lhs": "product.sizeChartImage",
+      "rhs": "sizeChartImage"
+    },
+    {
+      "lhs": "product.swatchImage",
+      "rhs": "swatchImage"
+    },
+    {
+      "lhs": "product.images",
+      "rhs": "additionalImageLinks"
+    },
+    {
+      "lhs": "product.certificationImages",
+      "rhs": "productCertificationImages"
+    },
+    {
+      "lhs": "product.videoURL",
+      "rhs": "videoURL"
+    },
+    {
+      "lhs": "product.googleCategoryId",
+      "rhs": "googleCategoryId"
+    },
+    {
+      "lhs": "product.brandCategory",
+      "rhs": "brandCategory"
+    },
+    {
+      "lhs": "product.countryOfOrigin",
+      "rhs": "countryOfOrigin"
+    },
+    {
+      "lhs": "product.link",
+      "rhs": "externalURL"
+    },
+    {
+      "lhs": "product.itemCondition",
+      "rhs": "itemCondition"
+    },
+    {
+      "lhs": "product.itemPrice",
+      "rhs": "itemPrice"
+    },
+    {
+      "lhs": "product.pricing.salePrice",
+      "rhs": "salePrice"
+    },
+    {
+      "lhs": "product.currency",
+      "rhs": "currency"
+    },
+    {
+      "lhs": "product.upc",
+      "rhs": "upc"
+    },
+    {
+      "lhs": "product.gTIN",
+      "rhs": "gTIN"
+    },
+    {
+      "lhs": "product.mpn",
+      "rhs": "mpn"
+    },
+    {
+      "lhs": "product.productType",
+      "rhs": "productType"
+    },
+    {
+      "lhs": "product.model",
+      "rhs": "model"
+    },
+    {
+      "lhs": "product.variation",
+      "rhs": "variation"
+    },
+    {
+      "lhs": "product.size",
+      "rhs": "size"
+    },
+    {
+      "lhs": "product.color",
+      "rhs": "color"
+    },
+    {
+      "lhs": "product.resistance",
+      "rhs": "resistance"
+    },
+    {
+      "lhs": "product.material",
+      "rhs": "material"
+    },
+    {
+      "lhs": "product.pattern",
+      "rhs": "pattern"
+    },
+    {
+      "lhs": "product.shape",
+      "rhs": "shape"
+    },
+    {
+      "lhs": "product.finish",
+      "rhs": "finish"
+    },
+    {
+      "lhs": "product.capacity",
+      "rhs": "capacity"
+    },
+    {
+      "lhs": "product.batteryLife",
+      "rhs": "batteryLife"
+    },
+    {
+      "lhs": "product.style",
+      "rhs": "style"
+    },
+    {
+      "lhs": "product.gender",
+      "rhs": "gender"
+    },
+    {
+      "lhs": "product.ageGroup",
+      "rhs": "ageGroup"
+    },
+    {
+      "lhs": "product.isBundled",
+      "rhs": "isBundled"
+    },
+    {
+      "lhs": "product.dimensions.length",
+      "rhs": "length"
+    },
+    {
+      "lhs": "product.dimensions.height",
+      "rhs": "height"
+    },
+    {
+      "lhs": "product.dimensions.unit",
+      "rhs": "dimensionUnit"
+    },
+    {
+      "lhs": "product.dimensions.weight",
+      "rhs": "weight"
+    },
+    {
+      "lhs": "product.weight.unit",
+      "rhs": "weightUnit"
+    },
+    {
+      "lhs": "product.packageWeight",
+      "rhs": "packageWeight"
+    },
+    {
+      "lhs": "product.shippingWeight",
+      "rhs": "shippingWeight"
+    },
+    {
+      "lhs": "product.packageDepth",
+      "rhs": "packageDepth"
+    },
+    {
+      "lhs": "product.packageHeight",
+      "rhs": "packageHeight"
+    },
+    {
+      "lhs": "product.packageWidth",
+      "rhs": "packageWidth"
+    },
+    {
+      "lhs": "product.warranty",
+      "rhs": "warranty"
+    },
+    {
+      "lhs": "product.warranty.type",
+      "rhs": "warrantType"
+    },
+    {
+      "lhs": "product.whatsInTheBox",
+      "rhs": "whatsInTheBox"
+    },
+    {
+      "lhs": "product.asin",
+      "rhs": "ASIN"
+    },
+    {
+      "lhs": "product.feature_bullets",
+      "rhs": "featureBullets"
+    },
+    {
+      "lhs": "product.attributes",
+      "rhs": "productAttributes"
+    },
+    {
+      "lhs": "product.specifications",
+      "rhs": "productSpecifications"
+    },
+    {
+      "lhs": "product.attributeName",
+      "rhs": "attributeName"
+    },
+    {
+      "lhs": "product.attributeValues",
+      "rhs": "attributeValues"
+    }
+  ]
+}
