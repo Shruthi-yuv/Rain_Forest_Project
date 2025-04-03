@@ -1,0 +1,98 @@
+{
+
+  "product": {
+    "title": "SKLZ 5-Position Tee and Impact Practice Balls 12 Pack Bundle",
+    "search_alias": {
+      "title": "Sports & Outdoors",
+      "value": "sporting"
+    },
+    "googleCategoryId": 12345,
+    "isBundled": true,
+    "currency": "USD",
+    "dimensions": {
+      "length": 20.05,
+      "height": 6.05,
+      "weight": 4.51
+    },
+    "pricing": {
+      "salePrice": 69.99,
+      "currency": "USD"
+    },
+    "warranty": {
+      "type": "Manufacturer",
+      "period": "1 Year"
+    },
+    "keywords_list": [
+      "SKLZ",
+      "5-Position",
+      "Impact",
+      "Practice",
+      "Balls",
+      "Pack",
+      "Bundle",
+      "Comprehensive",
+      "Training",
+      "Batting",
+      "Skills"
+    ],
+    "asin": "B0CSZ9RZY1",
+    "link": "https://www.amazon.com/SKLZ-5-Position-Practice-Comprehensive-Training/dp/B0CSZ9RZY1",
+    "brand": "SKLZ",
+    "categories_flat": "Sports & Outdoors > Baseball > Training Equipment > Batting Tees",
+    "description": "The SKLZ 5-Position Tee and Impact Practice Balls Bundle is a perfect training kit...",
+    "rating": 5,
+    "ratings_total": 3,
+    "main_image": {
+      "link": "https://m.media-amazon.com/images/I/81T4IanslqL.jpg"
+    },
+    "images": [
+      { "link": "https://m.media-amazon.com/images/I/81T4IanslqL._AC_SL1500_.jpg" },
+      { "link": "https://m.media-amazon.com/images/I/91vpF2ChtYL._AC_SL1500_.jpg" },
+      { "link": "https://m.media-amazon.com/images/I/91KnmRn-fXL._AC_SL1500_.jpg" }
+    ],
+    "feature_bullets": [
+      "Includes a 5 Position Tee and a 12 pack of Impact Practice Baseballs",
+      "5 Position Tee allows practice for outside, middle, and inside pitches...",
+      "Adjust tee height from 20 inch to 34 inch",
+      "Impact Practice baseballs are constructed with proprietary pop-back material...",
+      "Extremely durable and heavier than traditional practice balls..."
+    ],
+    "buybox_winner": {
+      "price": {
+        "symbol": "$",
+        "value": 69.99,
+        "currency": "USD",
+        "raw": "$69.99"
+      },
+      "availability": {
+        "type": "in_stock",
+        "stock_level": 20
+      },
+      "fulfillment": {
+        "is_sold_by_amazon": true,
+        "is_fulfilled_by_amazon": true
+      }
+    },
+    "specifications": [
+      { "name": "Brand", "value": "SKLZ" },
+      { "name": "Material", "value": "Plastic" },
+      { "name": "Color", "value": "Black and Yellow" },
+      { "name": "Age Range (Description)", "value": "Adult" },
+      { "name": "Sport", "value": "Baseball" },
+      { "name": "Number of Items", "value": "12" },
+      { "name": "UPC", "value": "096506144812" },
+      { "name": "Item Package Dimensions L x W x H", "value": "20.05 x 18.05 x 6.05 inches" },
+      { "name": "Package Weight", "value": "4.51 Kilograms" },
+      { "name": "Brand Name", "value": "SKLZ" },
+      { "name": "Warranty Description", "value": "1 Year Manufacturer" },
+      { "name": "Model Name", "value": "Tee and Training Ball Bundle" },
+      { "name": "Suggested Users", "value": "unisex-adult" },
+      { "name": "Manufacturer", "value": "SKLZ" },
+      { "name": "Style", "value": "Tee And Ball Bundle" },
+      { "name": "Included Components", "value": "5 Position Tee, 12 Pack Impact Practice Baseballs" },
+      { "name": "ASIN", "value": "B0CSZ9RZY1" },
+      { "name": "Best Sellers Rank", "value": "#747,705 in Sports & Outdoors, #228 in Baseball & Softball Batting Tees" },
+      { "name": "Date First Available", "value": "January 22, 2024" }
+    ]
+  }
+}
