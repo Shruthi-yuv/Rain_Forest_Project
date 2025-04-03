@@ -1,140 +1,173 @@
-import os
 import json
-from typing import TypedDict, Annotated, List
-from dotenv import load_dotenv
-from langgraph.constants import START, END
-from langgraph.graph import StateGraph, add_messages
-from langchain_openai import ChatOpenAI
-from langchain.schema import AIMessage, HumanMessage, SystemMessage
-from key_extractor import JSONKeyExtractor  # Import LHS extractor
-from prompt import user_input  # Import RHS fields
+from typing import List, Dict, Tuple, Callable, Optional
 
-load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
 
-if not api_key:
-    raise ValueError("OpenAI API key is missing. Check your .env file or environment variables.")
+class ProductAttribute:
+    def __init__(self, name: str, values: List[str]):
+        self.attributeName: str = name
+        self.attributeValues: List[str] = values
 
-def load_lhs():
-    with open("data.json", "r", encoding="utf-8") as file:
-        catalog_json = json.load(file)
 
-    extractor = JSONKeyExtractor(catalog_json)
-    return extractor.extract_keys()
+class ProductMapper:
+    PRODUCT_DATA_DATATYPE_CONFIG: Dict[str, type] = {
+        "productId": str,
+        "skuId": str,
+        "productTitle": str,
+        "description": str,
+        "longDescription": str,
+        "brand": str,
+        "heroImage": str,
+        "frontImage": str,
+        "backImage": str,
+        "boxImage": str,
+        "bottomImage": str,
+        "topImage": str,
+        "rightImage": str,
+        "leftImage": str,
+        "sizeChartImage": str,
+        "swatchImage": str,
+        "additionalImageLinks": List[str],
+        "productCertificationImages": List[str],
+        "videoURL": str,
+        "googleCategoryId": str,
+        "brandCategory": str,
+        "countryOfOrigin": str,
+        "externalURL": str,
+        "itemCondition": str,
+        "itemPrice": str,
+        "salePrice": str,
+        "currency": str,
+        "upc": str,
+        "gTIN": str,
+        "mpn": str,
+        "productType": str,
+        "model": str,
+        "variation": str,
+        "size": str,
+        "color": str,
+        "resistance": str,
+        "material": str,
+        "pattern": str,
+        "shape": str,
+        "finish": str,
+        "capacity": str,
+        "batteryLife": str,
+        "style": str,
+        "gender": str,
+        "ageGroup": str,
+        "isBundled": str,
+        "length": str,
+        "height": str,
+        "dimensionUnit": str,
+        "weight": str,
+        "weightUnit": str,
+        "packageWeight": str,
+        "shippingWeight": str,
+        "packageDepth": str,
+        "packageHeight": str,
+        "packageWidth": str,
+        "warranty": str,
+        "warrantType": str,
+        "whatsInTheBox": str,
+        "ASIN": str,
+        "featureBullets": List[str],
+        "productAttributes": List[ProductAttribute],
+        "productSpecifications": List[ProductAttribute],
+    }
 
-def load_rhs():
-    return user_input.get("rhs", [])
+    def __init__(self, mapping_file: str, data_file: str):
+        with open(mapping_file, "r", encoding="utf-8") as file:
+            self.mapping_dict = json.load(file)
 
-class State(TypedDict):
-    messages: Annotated[List, add_messages]
+        # 🔹 Ensure self.mapping_dict is a dictionary
+        if isinstance(self.mapping_dict, list):
+            self.mapping_dict = {"response": self.mapping_dict}
 
-class LangGraphChatbot:
-    def __init__(self, model: str = "gpt-4o-mini"):
-        self.llm = ChatOpenAI(model=model, openai_api_key=api_key)
-        self.graph_builder = StateGraph(State)
-        self.system_prompt = ""
-        self.user_input = ""
-        self._setup_graph()
+        with open(data_file, "r", encoding="utf-8") as file:
+            self.data_dict = json.load(file)
 
-    def _setup_graph(self):
-        self.graph_builder.add_edge(START, "init_node")
-        self.graph_builder.add_node("init_node", self.init_node)
-        self.graph_builder.add_edge("init_node", "chatbot")
-        self.graph_builder.add_node("chatbot", self.chatbot)
-        self.graph_builder.add_edge("chatbot", END)
-
-    def init_node(self, state: State) -> State:
-        return {
-            "messages": [
-                SystemMessage(content=self.system_prompt),
-                HumanMessage(content=self.user_input),
-            ]
-        }
-
-    def chatbot(self, state: State) -> State:
-        print("\nReceived User Input:", self.user_input)
-        response = self.llm.invoke(state["messages"])
-
-        response_text = response.content if isinstance(response, AIMessage) else str(response)
-
-        try:
-            structured_response = json.loads(response_text)
-        except json.JSONDecodeError:
-            print("\nError: AI response is not valid JSON. Trying to fix formatting...")
-            structured_response = self.fix_json_format(response_text)
-
-        mapped_values = self.get_mapped_values(structured_response)
-
-        # Print final JSON output with actual values
-        # print("\nFinal JSON Output:\n", json.dumps(mapped_values, indent=2))
-
-        return {"messages": state["messages"] + [AIMessage(content=json.dumps(mapped_values, indent=2))]}
-
-    def get_mapped_values(self, mappings):
-        with open("data.json", "r", encoding="utf-8") as file:
-            data = json.load(file)
-
-        mapped_data = {}
-        for lhs_field, rhs_field in mappings.items():
-            keys = lhs_field.split(".")  # Split nested keys
-            value = data
-
-            try:
-                for key in keys:
-                    if "[" in key and "]" in key:  # Handle list indexes
-                        key, index = key[:-1].split("[")
-                        value = value[key][int(index)]
-                    else:
-                        value = value[key]
-
-                mapped_data[rhs_field] = value  # Assign actual value
-            except (KeyError, IndexError, TypeError):
-                mapped_data[rhs_field] = None  # If key not found, set None
-
-        return mapped_data
-
-    def fix_json_format(self, text):
-        try:
-            start_index = text.find("{")
-            end_index = text.rfind("}") + 1
-            json_str = text[start_index:end_index]
-            return json.loads(json_str)
-        except Exception:
-            return {"error": "Unable to fix AI response formatting"}
-
-    def run(self):
-        lhs_fields = load_lhs()
-        rhs_fields = load_rhs()
-
-        self.system_prompt = f"""
-        You are an expert in matching e-commerce field names.
-        Given the LHS (source fields) and RHS (destination fields), map them based on semantic meaning.
-        Ensure that every LHS field is included in the output, even if it doesn't have an RHS match.
-
-        LHS Fields: {json.dumps(lhs_fields, indent=2)}
-        RHS Fields: {json.dumps(rhs_fields, indent=2)}
-        """
-
-        self.user_input = "Match these fields based on their meanings."
-
-        graph = self.graph_builder.compile()
-
-        events = graph.stream(
-            {"messages": [SystemMessage(content=self.system_prompt), HumanMessage(content=self.user_input)]},
-            {"configurable": {"thread_id": "1"}},
-            stream_mode="values",
-        )
-
-        for event in events:
-            if "messages" in event and event["messages"]:
-                last_message = event["messages"][-1]
-                if isinstance(last_message, AIMessage):
-                    print("\nAI Output:\n", last_message.content)
+    @staticmethod
+    def get_nested_value(data: dict, key_path: str) -> Optional[object]:
+        keys = key_path.split(".")
+        for key in keys:
+            if isinstance(data, dict) and key in data:
+                data = data[key]
             else:
-                print("No messages received from AI.")
+                print(f"WARNING: '{key_path}' not found in data.json")
+                return None
+        return data
 
-# Run the chatbot
+    @staticmethod
+    def attr_mapper(spec_object: dict) -> Optional[Dict[str, object]]:
+        if not isinstance(spec_object, dict) or "name" not in spec_object or "value" not in spec_object:
+            print(f"WARNING: Invalid specification format: {spec_object}")
+            return None
+        return {"attributeName": spec_object["name"], "attributeValues": [spec_object["value"]]}
+
+    @staticmethod
+    def additional_image_mapper(images: object) -> List[str]:
+        if isinstance(images, list):
+            return [img["link"] for img in images if isinstance(img, dict) and "link" in img]
+        elif isinstance(images, str):  # Handle case where it's a single string
+            return [images]
+        return []
+
+    @staticmethod
+    def buybox_price_mapper(price_data: object) -> Optional[str]:
+        return price_data.get("value") if isinstance(price_data, dict) else None
+
+    def map_values(
+        self,
+        source_field: str,
+        destination_field: str,
+        destination_field_type: type,
+        value: object,
+        product_data: dict
+    ) -> None:
+        if value is None:
+            print(f"WARNING: Missing value for '{source_field}'")
+            return
+
+        if (source_field, destination_field) in self.FIELD_TUPLE_DICT:
+            value = self.FIELD_TUPLE_DICT[(source_field, destination_field)](value)
+
+        # Store the mapped value
+        product_data[destination_field] = value
+
+    FIELD_TUPLE_DICT: Dict[Tuple[str, str], Callable] = {
+        ("product.images", "additionalImageLinks"): additional_image_mapper,
+        ("product.specifications", "productSpecifications"): lambda x: [
+            ProductMapper.attr_mapper(item) for item in x if isinstance(item, dict)
+        ],
+        ("product.buybox_winner.price", "itemPrice"): buybox_price_mapper,
+    }
+
+    def get_product(self) -> Dict[str, object]:
+        product_data = {}
+
+        for field_map_dict in self.mapping_dict.get("response", []):
+            source_field = field_map_dict.get("lhs")
+            destination_field = field_map_dict.get("rhs")
+
+            if not source_field or not destination_field:
+                continue
+
+            source_value = self.get_nested_value(self.data_dict, source_field)
+            print(f"Mapping '{source_field}' → '{destination_field}' | Found: {source_value}")
+
+            self.map_values(
+                source_field,
+                destination_field,
+                self.PRODUCT_DATA_DATATYPE_CONFIG.get(destination_field, str),
+                source_value,
+                product_data,
+            )
+
+        print("\nFINAL MAPPED DATA:\n", json.dumps(product_data, indent=2))
+        return product_data
+
+
 if __name__ == "__main__":
-    chatbot = LangGraphChatbot()
-    chatbot.run()
+    mapper = ProductMapper("mapping.json", "data.json")
+    mapped_data = mapper.get_product()
 
