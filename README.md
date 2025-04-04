@@ -11,7 +11,7 @@ Folder & File Structure
 ├── mapper.py         # Maps seller (lhs) fields to Mamenta (rhs) fields
 ├── mapper_1.py       # Dynamically maps lhs and rhs fields without explicitly specifying lhs
 ├── mapping.json      # Stores mappings of lhs and rhs fields
-├── data_mapper.py    # Maps lhs and rhs fields with corresponding data types
+├── data_mapper.py    # Maps lhs and rhs fields with corresponding data types using an AI functions
 ├── main.py           # Integrates all components and executes the entire workflow
 ├── prompt.py         # Contains system prompt and user input rules
 └── requirements.txt  # Lists required dependencies
